@@ -31,5 +31,4 @@ public class RESTClient {
 		this.servicePath = servicePath;
 		this.client = ClientBuilder.newClient();
 	}
-
 }
