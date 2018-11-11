@@ -1,3 +1,6 @@
-service/build/
-service/.settings/
-service/target/
+RESTService/build
+RESTService/.settings/
+RESTService/target/
+/build/
+.settings/
+WebContent/

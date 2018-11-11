@@ -6,13 +6,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import model.Facture;
-
 /**
  * @author Alice Breton, Laora Heintz, Loïc Poncet, Baptiste Rigondaud
  */
-@Path("/factures")
-public class FactureService {
+@Path("/receipts")
+public class ReceiptService {
 	
 	@GET
 	@Path("/test")
@@ -24,13 +22,13 @@ public class FactureService {
 	
 	@GET
 	@Produces("application/json")
-	public void getAllFactures() {
+	public void getAllReceipts() {
 		// TODO
 	}
 	
 	@GET
 	@Path("/{id}")
-	public Facture getFacture(@PathParam("id") int id) {
+	public Receipt getReceipt(@PathParam("id") int id) {
 		// TODO
 		return null;
 	}
