@@ -1,1 +1,3 @@
 service/build/
+service/.settings/
+service/target/
