@@ -1,6 +1,5 @@
-RESTService/build
-RESTService/.settings/
-RESTService/target/
+TangoSOA/buildTangoSOA/.settings/
+TangoSOA/target/
 /build/
 .settings/
 WebContent/
