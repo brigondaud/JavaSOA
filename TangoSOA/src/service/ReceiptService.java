@@ -9,6 +9,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import repository.Repository;
+import resources.Product;
 import resources.Receipt;
 
 /**
@@ -17,6 +19,12 @@ import resources.Receipt;
 
 @Path("/receipts")
 public class ReceiptService {
+	
+	private Repository<Receipt> repository;
+	
+	public ReceiptService() {
+		this.repository = new Repository<Receipt>(Receipt.class);
+	}
 	
 	@GET
 	@Path("/test")
@@ -35,14 +43,19 @@ public class ReceiptService {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public void getReceipt(@PathParam("id") Integer id) {
-		// TODO
+	public Receipt getReceipt(@PathParam("id") Integer id) {
+		Receipt receipt = new Receipt(id);
+		return this.repository.getOne(receipt);
 	}
 	
 	@POST
 	@Consumes("application/json")
 	public Response addReceipt(Receipt receipt) {
-		return null;
+		this.repository.save(receipt);
+		return Response.status(Response.Status.CREATED.getStatusCode())
+				.header(
+						"Location", 
+						String.format("%s", receipt.getResourcePath())).build();
 	}
 	
 	@DELETE
