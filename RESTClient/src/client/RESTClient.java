@@ -13,11 +13,6 @@ import javax.ws.rs.client.ClientBuilder;
 public class RESTClient {
 	
 	/**
-	 * The path to the REST web service
-	 */
-	private String servicePath;
-	
-	/**
 	 * An instance of client to perform requests to the service.
 	 */
 	private Client client;
@@ -27,8 +22,7 @@ public class RESTClient {
 	 * 
 	 * @param servicePath The URI to the web service.
 	 */
-	public RESTClient(String servicePath) {
-		this.servicePath = servicePath;
+	public RESTClient() {
 		this.client = ClientBuilder.newClient();
 	}
 }
