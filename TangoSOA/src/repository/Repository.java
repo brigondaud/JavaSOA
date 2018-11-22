@@ -5,8 +5,6 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 
-import resources.RESTResource;
-
 public class Repository<T> {
 	
 	final Class<T> typeParameterClass;
@@ -24,7 +22,11 @@ public class Repository<T> {
 		this.mapper = mappingManager.mapper(this.typeParameterClass);
 	}
 	
-	public T getOne(RESTResource resource) {
-		return this.mapper.get(resource);
+	public T getOne(T entity) {
+		return this.mapper.get(entity);
+	}
+	
+	public void save(T entity) {
+		this.mapper.save(entity);
 	}
 }

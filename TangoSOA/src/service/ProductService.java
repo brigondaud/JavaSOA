@@ -16,10 +16,17 @@ import javax.ws.rs.core.Response;
 
 import com.datastax.driver.mapping.Mapper;
 
+import repository.Repository;
 import resources.Product;
  
 @Path("/products")
 public class ProductService {
+	
+	private Repository<Product> repository;
+	
+	public ProductService() {
+		this.repository = new Repository<Product>(Product.class);
+	}
 	
 	@GET
 	@Produces("application/json")
@@ -29,14 +36,19 @@ public class ProductService {
 	
 	@GET
 	@Path("/{name}")
-	public void getProduct(@PathParam("name") String name) {
-		// TODO
+	public Product getProduct(@PathParam("name") String name) {
+		Product product = new Product(name);
+		return this.repository.getOne(product);
 	}
 	
 	@POST
 	@Consumes("application/json")
 	public Response addProduct(Product product) {
-		return null;
+		this.repository.save(product);
+		return Response.status(Response.Status.CREATED.getStatusCode())
+				.header(
+						"Location", 
+						String.format("%s", product.getResourcePath())).build();
 	}
 	
 	@DELETE
