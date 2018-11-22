@@ -1,6 +1,7 @@
 package resources;
 
 import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.PartitionKey;
 
 /**
  * A product has a name and a unit price.
@@ -8,18 +9,23 @@ import com.datastax.driver.mapping.annotations.Table;
  * @author Alice Breton, Laora Heintz, Loïc Poncet, Baptiste Rigondaud
  *
  */
-@Table(name = "products")
+@Table(keyspace = "ks", name = "products")
 public class Product extends RESTResource<String> {
 	
 	/**
 	 * Key: the name of the product.
 	 */
+    @PartitionKey
 	private String name;
 	
 	/**
 	 * The product's price. It is represented as an integer to make it simple.
 	 */
 	private int price;
+
+    public Product() {
+        super();
+    }
 	
 	/**
 	 * A product is built using its name.

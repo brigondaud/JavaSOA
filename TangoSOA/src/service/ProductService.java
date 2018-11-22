@@ -30,12 +30,13 @@ public class ProductService {
 	
 	@GET
 	@Produces("application/json")
-	public void getAllProducts() {
-		// TODO
+	public Response getAllProducts() {
+		return null;
 	}
 	
 	@GET
 	@Path("/{name}")
+	@Produces("application/json")
 	public Product getProduct(@PathParam("name") String name) {
 		Product product = new Product(name);
 		return this.repository.getOne(product);

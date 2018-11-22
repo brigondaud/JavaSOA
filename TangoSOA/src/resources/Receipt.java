@@ -3,7 +3,9 @@ package resources;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.datastax.driver.mapping.annotations.FrozenValue;
 import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.Transient;
 
 /**
  * A receipt is made of several products with their quantities.
@@ -11,7 +13,7 @@ import com.datastax.driver.mapping.annotations.Table;
  * @author Alice Breton, Laora Heintz, Loïc Poncet, Baptiste Rigondaud
  *
  */
-@Table(name = "receipts")
+@Table(keyspace = "ks", name = "receipts")
 public class Receipt extends RESTResource<Integer> {
 	
 	/**
@@ -22,6 +24,7 @@ public class Receipt extends RESTResource<Integer> {
 	/**
 	 * Holds the information of the receipt: the products and the quantities bought.
 	 */
+	@FrozenValue
 	private Map<Product, Integer> products;
 	
 	/**

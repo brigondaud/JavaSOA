@@ -36,8 +36,8 @@ public class ReceiptService {
 	
 	@GET
 	@Produces("application/json")
-	public void getAllReceipts() {
-		// TODO
+	public Response getAllReceipts() {
+		return null;
 	}
 	
 	@GET

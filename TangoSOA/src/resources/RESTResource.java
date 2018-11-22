@@ -1,6 +1,7 @@
 package resources;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Transient;
 
 /**
  * A resource that can be queries to the REST web service.
@@ -14,6 +15,8 @@ public abstract class RESTResource<Key> {
 	 * The key of the resource (must be unique for insertion).
 	 */
 	protected Key key;
+
+    public RESTResource() {}
 	
 	/**
 	 * Initiates the resource with its resourcePath
@@ -29,6 +32,7 @@ public abstract class RESTResource<Key> {
 	 * 
 	 * @return The resource's key.
 	 */
+	@Transient
 	@PartitionKey
 	public Key getKey() {
 		return this.key;
@@ -39,6 +43,7 @@ public abstract class RESTResource<Key> {
 	 * 
 	 * @return The resource's path.
 	 */
+	@Transient
 	public abstract String getResource();
 	
 	/**
@@ -46,9 +51,10 @@ public abstract class RESTResource<Key> {
 	 * 
 	 * @return The path to the resource.
 	 */
+	@Transient
 	public String getResourcePath() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("http://localhost:8080/TangoSOA/rest");
+		sb.append("http://localhost:8080/rest");
 		sb.append(getResource());
 		return sb.toString();
 	}
