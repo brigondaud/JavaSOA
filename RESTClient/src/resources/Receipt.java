@@ -3,15 +3,16 @@ package resources;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.datastax.driver.mapping.annotations.Table;
+
 /**
  * A receipt is made of several products with their quantities.
  * 
  * @author Alice Breton, Laora Heintz, Loïc Poncet, Baptiste Rigondaud
  *
  */
+@Table(name = "receipts")
 public class Receipt extends RESTResource<Integer> {
-	
-	private static final String resourcePath = "TODO";
 	
 	/**
 	 * Key: the id of the receipt.
@@ -34,8 +35,8 @@ public class Receipt extends RESTResource<Integer> {
 	}
 	
 	@Override
-	public String getResourcePath() {
-		return Receipt.resourcePath;
+	public String getResource() {
+		return "/receipts";
 	}
 
 	public Integer getId() {

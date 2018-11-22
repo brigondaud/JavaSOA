@@ -1,14 +1,15 @@
 package resources;
 
+import com.datastax.driver.mapping.annotations.Table;
+
 /**
  * A product has a name and a unit price.
  * 
  * @author Alice Breton, Laora Heintz, Loïc Poncet, Baptiste Rigondaud
  *
  */
+@Table(name = "products")
 public class Product extends RESTResource<String> {
-	
-	private static final String resourcePath = "TODO";
 	
 	/**
 	 * Key: the name of the product.
@@ -31,8 +32,8 @@ public class Product extends RESTResource<String> {
 	}
 	
 	@Override
-	public String getResourcePath() {
-		return Product.resourcePath;
+	public String getResource() {
+		return "/products";
 	}
 
 	public String getName() {
