@@ -36,11 +36,6 @@ public class Product extends RESTResource<String> {
 		super(name);
 		this.price = 0;
 	}
-	
-	@Override
-	public String getResource() {
-		return "/products";
-	}
 
 	public String getName() {
 		return name;
@@ -56,6 +51,11 @@ public class Product extends RESTResource<String> {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	@Override
+	public String path() {
+		return "/products";
 	}
 		
 }

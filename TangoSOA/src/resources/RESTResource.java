@@ -32,30 +32,16 @@ public abstract class RESTResource<Key> {
 	 * 
 	 * @return The resource's key.
 	 */
-	@Transient
 	@PartitionKey
 	public Key getKey() {
 		return this.key;
 	}
 	
 	/**
-	 * Getter for the path to the resource.
+	 * Get the relative path to the resource.
 	 * 
-	 * @return The resource's path.
+	 * @return The relative path to the resource.
 	 */
 	@Transient
-	public abstract String getResource();
-	
-	/**
-	 * Gets the full path to the resource.
-	 * 
-	 * @return The path to the resource.
-	 */
-	@Transient
-	public String getResourcePath() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("http://localhost:8080/rest");
-		sb.append(getResource());
-		return sb.toString();
-	}
+	public abstract String path();
 }

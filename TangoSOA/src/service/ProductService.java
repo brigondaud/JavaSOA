@@ -49,7 +49,7 @@ public class ProductService {
 		return Response.status(Response.Status.CREATED.getStatusCode())
 				.header(
 						"Location", 
-						String.format("%s", product.getResourcePath())).build();
+						"/rest" + product.path()).build();
 	}
 	
 	@DELETE

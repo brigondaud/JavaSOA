@@ -55,7 +55,7 @@ public class ReceiptService {
 		return Response.status(Response.Status.CREATED.getStatusCode())
 				.header(
 						"Location", 
-						String.format("%s", receipt.getResourcePath())).build();
+						"/rest" + receipt.path()).build();
 	}
 	
 	@DELETE

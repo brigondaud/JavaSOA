@@ -31,15 +31,14 @@ public class Receipt extends RESTResource<Integer> {
 	 * A Receipt is built using an id.
 	 * 
 	 * @param id The id (key) of the receipt.
-	 */
+	 */	
 	public Receipt(Integer id) {
 		super(id);
 		this.products = new HashMap();
 	}
 	
-	@Override
-	public String getResource() {
-		return "/receipts";
+	public Receipt() {
+		super();
 	}
 
 	public Integer getId() {
@@ -56,5 +55,10 @@ public class Receipt extends RESTResource<Integer> {
 
 	public void setProducts(Map<Product, Integer> products) {
 		this.products = products;
+	}
+
+	@Override
+	public String path() {
+		return "/receipts";
 	}
 }
