@@ -36,6 +36,11 @@ public class Product extends RESTResource<String> {
 		super(name);
 		this.price = 0;
 	}
+	
+	public Product(String name, int price) {
+		super(name);
+		setPrice(price);
+	}
 
 	public String getName() {
 		return name;

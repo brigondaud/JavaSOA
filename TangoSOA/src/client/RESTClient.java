@@ -27,7 +27,7 @@ public class RESTClient {
 	 * 
 	 * @param servicePath The URI to the web service.
 	 */
-	public RESTClient(String servicePath) {
+	public RESTClient() {
 		this.client = ClientBuilder.newClient();
 	}
 	
