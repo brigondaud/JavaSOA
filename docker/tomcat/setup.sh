@@ -10,10 +10,10 @@ apt-get -y install curl
 curl -O http://mirror.its.dal.ca/apache/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
 tar xzvf apache-tomcat-8*tar.gz -C ~/tomcat --strip-components=1
 
-# cd ~/tomcat
-# chgrp -R tomcat ~/tomcat
-# chmod -R g+r ~/tomcat/conf && chmod g+x ~/tomcat/conf
-# chown -R tomcat ~/tomcat/webapps/ ~/tomcat/work/ ~/tomcat/temp/ ~/tomcat/logs/
+cd ~/tomcat
+chgrp -R tomcat ~/tomcat
+chmod -R g+r ~/tomcat/conf && chmod g+x ~/tomcat/conf
+chown -R tomcat ~/tomcat/webapps/ ~/tomcat/work/ ~/tomcat/temp/ ~/tomcat/logs/
 
 sudo ufw allow 8080
 
