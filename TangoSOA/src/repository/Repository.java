@@ -16,8 +16,9 @@ public class Repository<T> {
 	
 	public Repository(Class<T> typeParameterClass) {
 		this.typeParameterClass = typeParameterClass;
+		String dbAddr = System.getenv("dbAddr") == null ? "127.0.0.1" : System.getenv("dbAddr");
 		this.cluster = Cluster.builder()
-				.addContactPoint("127.0.0.1")
+				.addContactPoint(dbAddr)
 		        .build();
 		this.session = cluster.connect();
 		this.createKeySpace("ks", "SimpleStrategy", 1);
