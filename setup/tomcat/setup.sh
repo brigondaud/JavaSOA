@@ -1,3 +1,9 @@
+#Expect the Cassandra VM @IP as first argument
+if [ $# -eq 0 ]
+  then
+    echo "Usage: setup.sh <IP@Cassandra> [TODO: IP@SparkMaster]"
+fi
+
 sudo apt-get update
 sudo apt-get -y install default-jdk
 
@@ -35,5 +41,7 @@ sudo ln -s apache-maven-3.5.4 apache-maven
 export M2_HOME=/usr/local/apache-maven
 export MAVEN_HOME=/usr/local/apache-maven
 export PATH=${M2_HOME}/bin:${PATH}
+
+export dbAddr="$1"
 
 sh ~/tomcat/bin/startup.sh
