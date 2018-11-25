@@ -43,5 +43,3 @@ export MAVEN_HOME=/usr/local/apache-maven
 export PATH=${M2_HOME}/bin:${PATH}
 
 export dbAddr="$1"
-
-sh ~/tomcat/bin/startup.sh
