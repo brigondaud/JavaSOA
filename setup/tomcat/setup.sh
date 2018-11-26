@@ -46,6 +46,6 @@ cd ~
 echo "export M2_HOME=/usr/local/apache-maven" >> .bashrc
 echo "export MAVEN_HOME=/usr/local/apache-maven" >> .bashrc
 echo "export PATH=${M2_HOME}/bin:${PATH}" >> .bashrc
-echo "export dbAddr=${$1}" >> .bashrc
+echo "export dbAddr=$1" >> .bashrc
 
 source ~/.bashrc
