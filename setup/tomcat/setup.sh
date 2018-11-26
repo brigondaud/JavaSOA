@@ -2,6 +2,7 @@
 if [ $# -eq 0 ]
   then
     echo "Usage: setup.sh <IP@Cassandra> [TODO: IP@SparkMaster]"
+    exit 1
 fi
 
 sudo apt-get update
@@ -26,7 +27,7 @@ sudo ufw allow 8080
 cd ~
 
 jdk=$(update-java-alternatives -l | tr -s ' ' | cut -d' ' -f 3)
-echo "export PATH=JAVA_HOME=$jdk/jre/bin:$PATH" >> .bashrc
+echo "export PATH=JAVA_HOME=${jdk}/jre/bin:$PATH" >> .bashrc
 echo "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
 echo "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
 echo "export CATALINA_HOME=~/tomcat" >> .bashrc
