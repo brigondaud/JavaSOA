@@ -26,13 +26,13 @@ sudo ufw allow 8080
 cd ~
 
 jdk=$(update-java-alternatives -l | tr -s ' ' | cut -d' ' -f 3)
-cat "export PATH=JAVA_HOME=$jdk/jre/bin:$PATH" >> .bashrc
-cat "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
-cat "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
-cat "export CATALINA_HOME=~/tomcat" >> .bashrc
-cat "export CATALINA_BASE=~/tomcat" >> .bashrc
-cat "export 'CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'" >> .bashrc
-cat "export 'JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'" >> .bashrc
+echo "export PATH=JAVA_HOME=$jdk/jre/bin:$PATH" >> .bashrc
+echo "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
+echo "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
+echo "export CATALINA_HOME=~/tomcat" >> .bashrc
+echo "export CATALINA_BASE=~/tomcat" >> .bashrc
+echo "export 'CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'" >> .bashrc
+echo "export 'JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'" >> .bashrc
 
 source ~/.bashrc
 
