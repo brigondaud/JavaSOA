@@ -38,7 +38,7 @@ echo "export 'JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/.
 cd /usr/local
 wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
 
-sudo tar xzf apache-maven-3.5.4-bin.tar.gz
+sudo tar -xzf apache-maven-3.5.4-bin.tar.gz
 sudo ln -s apache-maven-3.5.4 apache-maven
 
 cd ~
