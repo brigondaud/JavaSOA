@@ -13,14 +13,14 @@ sudo useradd -s /bin/false -g tomcat -d ~/tomcat tomcat
 
 mkdir ~/tomcat
 cd /tmp
-apt-get -y install curl
-curl -O http://mirror.its.dal.ca/apache/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
-tar xzvf apache-tomcat-8*tar.gz -C ~/tomcat --strip-components=1
+sudo apt-get -y install curl
+sudo curl -O http://mirror.its.dal.ca/apache/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
+sudo tar xzvf apache-tomcat-8*tar.gz -C ~/tomcat --strip-components=1
 
 cd ~/tomcat
-chgrp -R tomcat ~/tomcat
-chmod -R g+r ~/tomcat/conf && chmod g+x ~/tomcat/conf
-chown -R tomcat ~/tomcat/webapps/ ~/tomcat/work/ ~/tomcat/temp/ ~/tomcat/logs/
+sudo chgrp -R tomcat ~/tomcat
+sudo chmod -R g+r ~/tomcat/conf && chmod g+x ~/tomcat/conf
+sudo chown -R tomcat ~/tomcat/webapps/ ~/tomcat/work/ ~/tomcat/temp/ ~/tomcat/logs/
 
 sudo ufw allow 8080
 
@@ -36,7 +36,7 @@ echo "export 'CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'" >> .
 echo "export 'JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'" >> .bashrc
 
 cd /usr/local
-wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+sudo wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
 
 sudo tar -xzf apache-maven-3.5.4-bin.tar.gz
 sudo ln -s apache-maven-3.5.4 apache-maven
