@@ -23,14 +23,18 @@ chown -R tomcat ~/tomcat/webapps/ ~/tomcat/work/ ~/tomcat/temp/ ~/tomcat/logs/
 
 sudo ufw allow 8080
 
+cd ~
+
 jdk=$(update-java-alternatives -l | tr -s ' ' | cut -d' ' -f 3)
-export JAVA_HOME=$jdk/jre
-export CATALINA_PID=~/tomcat/temp/tomcat.pid
-export CATALINA_PID=~/tomcat/temp/tomcat.pid
-export CATALINA_HOME=~/tomcat
-export CATALINA_BASE=~/tomcat
-export 'CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
-export 'JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+cat "export PATH=JAVA_HOME=$jdk/jre/bin:$PATH" >> .bashrc
+cat "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
+cat "export CATALINA_PID=~/tomcat/temp/tomcat.pid" >> .bashrc
+cat "export CATALINA_HOME=~/tomcat" >> .bashrc
+cat "export CATALINA_BASE=~/tomcat" >> .bashrc
+cat "export 'CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'" >> .bashrc
+cat "export 'JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'" >> .bashrc
+
+source ~/.bashrc
 
 # cd /usr/local
 # wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
