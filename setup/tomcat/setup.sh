@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Expect the Cassandra VM @IP as first argument
 if [ $# -eq 0 ]
   then
