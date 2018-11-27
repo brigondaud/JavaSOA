@@ -30,7 +30,7 @@ echo 'export JAVA_HOME='"$jdk" >> ~/.bashrc
 
 . ~/.bashrc
 
-echo 'export PATH='"$JAVA_HOME"'/bin:$PATH' >> ~/.bashrc
+echo 'export PATH='"$JAVA_HOME"'/bin:'"$PATH" >> ~/.bashrc
 echo 'export CATALINA_PID=~/tomcat/temp/tomcat.pid' >> ~/.bashrc
 echo 'export CATALINA_PID=~/tomcat/temp/tomcat.pid' >> ~/.bashrc
 echo 'export CATALINA_HOME=~/tomcat' >> ~/.bashrc
