@@ -32,7 +32,7 @@ public abstract class RESTResource<Key> {
 	 * 
 	 * @return The resource's key.
 	 */
-	@PartitionKey
+    @Transient
 	public Key getKey() {
 		return this.key;
 	}

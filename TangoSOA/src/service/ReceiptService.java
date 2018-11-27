@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,8 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import repository.Repository;
-import resources.Product;
+import repository.ReceiptRepository;
 import resources.Receipt;
 
 /**
@@ -20,10 +21,10 @@ import resources.Receipt;
 @Path("/receipts")
 public class ReceiptService {
 	
-	private Repository<Receipt> repository;
+	private ReceiptRepository receiptRepository;
 	
 	public ReceiptService() {
-		this.repository = new Repository<Receipt>(Receipt.class);
+		this.receiptRepository = new ReceiptRepository();
 	}
 	
 	@GET
@@ -36,22 +37,21 @@ public class ReceiptService {
 	
 	@GET
 	@Produces("application/json")
-	public Response getAllReceipts() {
-		return null;
+	public List<Receipt> getAllReceipts() {
+		return this.receiptRepository.getAll();
 	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
 	public Receipt getReceipt(@PathParam("id") Integer id) {
-		Receipt receipt = new Receipt(id);
-		return this.repository.getOne(receipt);
+		return this.receiptRepository.getOne(id);
 	}
 	
 	@POST
 	@Consumes("application/json")
 	public Response addReceipt(Receipt receipt) {
-		this.repository.save(receipt);
+		this.receiptRepository.save(receipt);
 		return Response.status(Response.Status.CREATED.getStatusCode())
 				.header(
 						"Location", 
@@ -60,13 +60,22 @@ public class ReceiptService {
 	
 	@DELETE
 	public Response deleteAll() {
-		return null;
+		this.receiptRepository.deleteAll();
+		return Response.status(Response.Status.NO_CONTENT.getStatusCode())
+				.build();
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	public Response deleteOne(@PathParam("id") Integer id) {
-		return null;
+		if (this.receiptRepository.getOne(id) == null) {
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode())
+					.build();
+		} else {
+			this.receiptRepository.deleteOne(id);
+			return Response.status(Response.Status.NO_CONTENT.getStatusCode())
+					.build();
+		}
 	}
 	
 

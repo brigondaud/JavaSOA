@@ -1,11 +1,11 @@
 package resources;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
-import com.datastax.driver.mapping.annotations.FrozenValue;
+import com.datastax.driver.mapping.annotations.Frozen;
 import com.datastax.driver.mapping.annotations.Table;
-import com.datastax.driver.mapping.annotations.Transient;
+import com.datastax.driver.mapping.annotations.PartitionKey;
 
 /**
  * A receipt is made of several products with their quantities.
@@ -19,13 +19,14 @@ public class Receipt extends RESTResource<Integer> {
 	/**
 	 * Key: the id of the receipt.
 	 */
+    @PartitionKey
 	private Integer id;
 	
 	/**
 	 * Holds the information of the receipt: the products and the quantities bought.
 	 */
-	@FrozenValue
-	private Map<Product, Integer> products;
+	@Frozen
+	private List<Product> products;
 	
 	/**
 	 * A Receipt is built using an id.
@@ -34,7 +35,7 @@ public class Receipt extends RESTResource<Integer> {
 	 */	
 	public Receipt(Integer id) {
 		super(id);
-		this.products = new HashMap();
+		this.products = new ArrayList<>();
 	}
 	
 	public Receipt() {
@@ -49,11 +50,11 @@ public class Receipt extends RESTResource<Integer> {
 		this.id = id;
 	}
 
-	public Map<Product, Integer> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Map<Product, Integer> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 
