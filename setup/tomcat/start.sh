@@ -1,3 +1,4 @@
-sh ~/tomcat/bin/startup.sh
+#!/bin/bash
+bash ~/tomcat/bin/startup.sh
 
 # TODO: call deploy with maven
