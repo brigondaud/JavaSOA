@@ -28,7 +28,7 @@ sudo ufw allow 8080
 cd ~
 
 jdk=$(update-java-alternatives -l | tr -s ' ' | cut -d' ' -f 3)
-echo "export JAVA_HOME=${jdk}/jre"
+echo "export JAVA_HOME=${jdk}/jre" >> .bashrc
 
 . ~/.bashrc
 
