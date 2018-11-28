@@ -28,7 +28,6 @@ sudo ufw allow 8080
 jdk=$(update-java-alternatives -l | tr -s ' ' | cut -d' ' -f 3)
 echo 'export JAVA_HOME='"$jdk" >> ~/.bashrc
 
-# FIXME: source is not working
 . ~/.bashrc
 
 echo 'export PATH='"$JAVA_HOME"'/bin:'"$PATH" >> ~/.bashrc
