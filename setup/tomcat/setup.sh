@@ -18,9 +18,8 @@ cd /tmp
 sudo wget http://mirror.its.dal.ca/apache/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
 sudo tar -xzvf apache-tomcat-8*tar.gz -C ~/tomcat --strip-components=1
 
-# cd ~/tomcat
-# sudo chgrp -R tomcat ~/tomcat
-# sudo chmod -R g+r ~/tomcat/conf && chmod g+x ~/tomcat/conf
+cd ~/tomcat
+sudo chmod -R rx ~/tomcat/conf
 # sudo chown -R tomcat ~/tomcat/webapps/ ~/tomcat/work/ ~/tomcat/temp/ ~/tomcat/logs/
 
 sudo ufw allow 8080
@@ -55,10 +54,4 @@ echo 'export dbAddr='"$1" >> ~/.bashrc
 . ~/.bashrc
 
 cp -f ~/JavaSOA/setup/tomcat/settings.xml $MAVEN_HOME/conf/
-
-#TODO: cp and tomcat users
-
-# <role rolename="manager"/>
-# <role rolename="manager-script"/>
-# <role rolename="manager-gui"/>
-# <user username="admin" password="admin" roles="manager,manager-gui,manager-script"/>
+cp -f ~/JavaSOA/setup/tomcat/tomcat-users.xml ~/tomcat/conf/
