@@ -1,11 +1,7 @@
 package resources;
 
-import java.util.List;
 import java.util.ArrayList;
-
-import com.datastax.driver.mapping.annotations.Frozen;
-import com.datastax.driver.mapping.annotations.Table;
-import com.datastax.driver.mapping.annotations.PartitionKey;
+import java.util.List;
 
 /**
  * A receipt is made of several products with their quantities.
@@ -13,34 +9,37 @@ import com.datastax.driver.mapping.annotations.PartitionKey;
  * @author Alice Breton, Laora Heintz, Loïc Poncet, Baptiste Rigondaud
  *
  */
-@Table(keyspace = "ks", name = "receipts")
-public class Receipt extends RESTResource<Integer> {
+public class Receipt {
 	
 	/**
 	 * Key: the id of the receipt.
 	 */
-    @PartitionKey
 	private Integer id;
 	
 	/**
 	 * Holds the information of the receipt: the products and the quantities bought.
 	 */
-	@Frozen
 	private List<Product> products;
-	
+
+	public Receipt() {
+		super();
+	}
+
 	/**
 	 * A Receipt is built using an id.
 	 * 
 	 * @param id The id (key) of the receipt.
 	 */	
 	public Receipt(Integer id) {
-		super(id);
+		this.id = id;
 		this.products = new ArrayList<>();
 	}
-	
-	public Receipt() {
-		super();
+
+	public Receipt(Integer id, List<Product> products) {
+		this.id = id;
+		this.products = products;
 	}
+
 
 	public Integer getId() {
 		return id;
@@ -59,7 +58,11 @@ public class Receipt extends RESTResource<Integer> {
 	}
 
 	@Override
-	public String path() {
-		return "/receipts";
+    public boolean equals(Object o) {
+		if (!(o instanceof Receipt)) {
+			return false;
+		}
+		Receipt otherReceipt = (Receipt) o;
+		return this.id == otherReceipt.id;
 	}
 }

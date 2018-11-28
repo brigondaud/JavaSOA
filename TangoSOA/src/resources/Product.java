@@ -1,14 +1,11 @@
 package resources;
 
-import com.datastax.driver.mapping.annotations.UDT;
-
 /**
  * A product has a name and a unit price.
  * 
  * @author Alice Breton, Laora Heintz, Loïc Poncet, Baptiste Rigondaud
  *
  */
-@UDT(keyspace = "ks", name = "product")
 public class Product {
 	
 	/**

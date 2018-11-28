@@ -1,4 +1,6 @@
 TangoSOA/buildTangoSOA/.settings/
 TangoSOA/target/
+TangoSOA/.idea/
+**.iml
 /build/
 .settings/

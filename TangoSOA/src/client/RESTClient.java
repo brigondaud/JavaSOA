@@ -4,7 +4,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
-import resources.RESTResource;
 
 /**
  * REST Client that can interrogates a REST web service containing groceries
@@ -15,7 +14,7 @@ import resources.RESTResource;
  */
 public class RESTClient {
 	
-	public static String servicePath = "http://localhost:8080/rest";
+	public static String servicePath = "http://localhost:8080/rest/receipts";
 	
 	/**
 	 * An instance of client to perform requests to the service.
@@ -24,8 +23,6 @@ public class RESTClient {
 	
 	/**
 	 * The REST client is built using the URI to the web service.
-	 * 
-	 * @param servicePath The URI to the web service.
 	 */
 	public RESTClient() {
 		this.client = ClientBuilder.newClient();
@@ -34,25 +31,24 @@ public class RESTClient {
 	/**
 	 * Build a request in JSON format.
 	 * 
-	 * @param resource The resource with which the request is built.
 	 * @return A post / get ready request.
 	 */
-	public Invocation.Builder build(RESTResource resource) {
+	public Invocation.Builder build() {
 		return client
-				.target(getResourcePath(resource.path()))
-				.path(resource.getKey().toString())
+				.target(servicePath)
 				.request(MediaType.APPLICATION_JSON);
 	}
 	
 	/**
-	 * Builds a path to a resource.
+	 * Build a request in JSON format.
 	 * 
-	 * @return The path to the resource.
+	 * @param id The id of the resource to retrieve or delete
+	 * @return A post / get ready request.
 	 */
-	public static String getResourcePath(String resourcePath) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(servicePath);
-		sb.append(resourcePath);
-		return sb.toString();
+	public Invocation.Builder build(int id) {
+		return client
+				.target(servicePath)
+				.path("/" + String.valueOf(id))
+				.request(MediaType.APPLICATION_JSON);
 	}
 }
