@@ -15,6 +15,8 @@ public class Job {
     public static void main(String[] args) {
         SparkSession spark = SparkSession
         .builder()
+                .config("spark.driver.memory", "512m")
+                .config("spark.executor.memory", "512m")
         .appName("JavaSparkPi")
         .getOrCreate();
         
