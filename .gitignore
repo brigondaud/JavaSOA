@@ -1,4 +1,8 @@
-TangoSOA/buildTangoSOA/.settings/
-TangoSOA/target/
+client/buildclient/.settings/
+client/target/
+client/.idea/
+**.iml
 /build/
 .settings/
+service/node_modules/
+service/package-lock.json
