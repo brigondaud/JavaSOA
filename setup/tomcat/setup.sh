@@ -19,7 +19,7 @@ sudo wget http://mirror.its.dal.ca/apache/tomcat/tomcat-8/v8.5.35/bin/apache-tom
 sudo tar -xzvf apache-tomcat-8*tar.gz -C ~/tomcat --strip-components=1
 
 cd ~/tomcat
-sudo chmod -R rx ~/tomcat/conf
+sudo chmod -R +rwx ~/tomcat/conf
 # sudo chown -R tomcat ~/tomcat/webapps/ ~/tomcat/work/ ~/tomcat/temp/ ~/tomcat/logs/
 
 sudo ufw allow 8080
