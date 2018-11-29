@@ -8,15 +8,21 @@ const Receipt = new Schema({
   products: Array
 }, { versionKey: false });
 
+const Result = new Schema({
+  id: { type: Number, unique: true },
+  name: String
+}, { versionKey: false });
+
 const ReceiptModel = mongoose.model("Receipt", Receipt);
+const ResultModel = mongoose.model("Result", Result);
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect("mongodb://log4420_lopon_barig:log4420@ds147003.mlab.com:47003/online-shop",
+mongoose.connect("mongodb://teamtango:log8430@ds121624.mlab.com:21624/tangodb",
   {useMongoClient: true},
   function(error){
     if(error)
       console.log("Error while connecting to the DB:", error);
 });
 
-module.exports = {ReceiptModel};
+module.exports = {ReceiptModel, ResultModel};
