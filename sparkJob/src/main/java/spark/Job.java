@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spark;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.api.java.JavaRDD;
 
 /**
  * A  very simple Spark job.
@@ -17,21 +13,31 @@ import org.apache.spark.api.java.JavaSparkContext;
 public class Job {
     
     public static void main(String[] args) {
-        SparkConf sparkConf = new SparkConf()
-                .setAppName("Test Job");
-        JavaSparkContext sc = new JavaSparkContext(sparkConf);
-        List<Integer> l = new ArrayList<>(100);
-        for (int i = 0; i < 100; i++) {
-          l.add(i);
-        }
+        SparkSession spark = SparkSession
+        .builder()
+        .appName("JavaSparkPi")
+        .getOrCreate();
+        
+        JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
-        long count = sc.parallelize(l).filter(i -> {
-          double x = Math.random();
-          double y = Math.random();
-          return x*x + y*y < 1;
-        }).count();
-        System.out.println("Pi is roughly " + 4.0 * count / 100);
-        sc.stop();
+      int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
+      int n = 2 * slices;
+      List<Integer> l = new ArrayList<>(n);
+      for (int i = 0; i < n; i++) {
+        l.add(i);
+      }
+
+      JavaRDD<Integer> dataSet = jsc.parallelize(l, slices);
+
+      int count = dataSet.map(integer -> {
+        double x = Math.random() * 2 - 1;
+        double y = Math.random() * 2 - 1;
+        return (x * x + y * y <= 1) ? 1 : 0;
+      }).reduce((integer, integer2) -> integer + integer2);
+
+      System.out.println("Pi is roughly " + 4.0 * count / n);
+
+        spark.stop();
     }
     
 }
