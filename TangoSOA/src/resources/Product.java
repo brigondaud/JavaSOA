@@ -69,4 +69,15 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }    
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Product)) {
+            return false;
+        }
+        Product other = (Product) o;
+        return this.name.equals(other.getName())
+                && this.price == other.getPrice()
+                && this.quantity == other.getQuantity();
+    }
 }

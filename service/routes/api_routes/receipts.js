@@ -1,8 +1,8 @@
 /**
- * Contains the routes to the orders API endpoint.
+ * Contains the routes to the receipts API endpoint.
  */
 const express = require("express");
-const handlers = require('../../lib/api/orders');
+const handlers = require('../../lib/api/receipts');
 const router = express.Router();
 
 router.get("/", (req, res) => {

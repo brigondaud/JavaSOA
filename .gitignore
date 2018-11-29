@@ -4,3 +4,5 @@ TangoSOA/.idea/
 **.iml
 /build/
 .settings/
+service/node_modules/
+service/package-lock.json

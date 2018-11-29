@@ -1,24 +1,15 @@
 const express = require("express");
 const path = require("path");
-const favicon = require("serve-favicon");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 
 require("./lib/db");
-const index = require("./routes/routes");
-const productsRoute = require("./routes/api_routes/products");
-const shoppingCartRoute = require("./routes/api_routes/shopping-cart");
-const ordersRoute = require("./routes/api_routes/orders");
+const receiptsRoute = require("./routes/api_routes/receipts");
 
 const app = express();
 
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
-
-app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 if(process.env.NODE_ENV !== 'test') {
   app.use(logger("dev"));
@@ -27,7 +18,6 @@ if(process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/assets', express.static(path.join(__dirname, "public")));
 
 // initialize the session
 app.use(session({
@@ -37,13 +27,8 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// Register the routes to the controller.
-app.use("/", index);
-
 // Register the routes to the api.
-app.use("/api/products", productsRoute);
-app.use("/api/shopping-cart", shoppingCartRoute);
-app.use("/api/orders", ordersRoute);
+app.use("/rest/receipts", receiptsRoute);
 
 
 // catch 404 and forward to error handler

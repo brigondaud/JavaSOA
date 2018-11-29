@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
  */
 public class RESTClient {
 	
-	public static String servicePath = "http://localhost:8080/rest/receipts";
+	public static String servicePath = "http://localhost:8000/rest/receipts";
 	
 	/**
 	 * An instance of client to perform requests to the service.
