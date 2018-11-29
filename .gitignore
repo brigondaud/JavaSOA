@@ -1,6 +1,6 @@
-TangoSOA/buildTangoSOA/.settings/
-TangoSOA/target/
-TangoSOA/.idea/
+client/buildclient/.settings/
+client/target/
+client/.idea/
 **.iml
 /build/
 .settings/
