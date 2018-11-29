@@ -108,4 +108,42 @@ class TestResources {
 		assertEquals(products, r2.getProducts());
 	}
 
+	/**
+	 * Create a receipt with invalid Product name
+	 */
+	@Test
+	void createReceiptWithInvalidProductNameShouldNotWork() {
+		List<Product> products = new ArrayList<>();
+		Product product = new Product("", 10, 11);
+		products.add(product);
+		Receipt r = new Receipt(42, products);
+		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
+		assertEquals(400, response.getStatus());
+	}
+
+	/**
+	 * Create a receipt with invalid Product quantity
+	 */
+	@Test
+	void createReceiptWithInvalidProductQuantityShouldNotWork() {
+		List<Product> products = new ArrayList<>();
+	    Product product = new Product("tomate", 0, 0);
+	    products.add(product);
+		Receipt r = new Receipt(42, products);
+		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
+		assertEquals(400, response.getStatus());
+	}
+
+	/**
+	 * Create a receipt with invalid Product price
+	 */
+	@Test
+	void createReceiptWithInvalidProductPriceShouldNotWork() {
+		List<Product> products = new ArrayList<>();
+		Product product = new Product("tomate", -1, 1);
+		products.add(product);
+		Receipt r = new Receipt(42, products);
+		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
+		assertEquals(400, response.getStatus());
+	}
 }
