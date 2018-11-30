@@ -1,12 +1,12 @@
-#LOG8430 - TP4 - SOA, REST, Infonuagique, Architectures Multi-niveaux pour le traitement de mégadonnées.
+# LOG8430 - TP4 - SOA, REST, Infonuagique, Architectures Multi-niveaux pour le traitement de mégadonnées.
 
 Ce README détaille les étapes pour pouvoir mettre en place le service distribué.
 
 
 
-##Marche à suivre
+## Marche à suivre
 
-###Pré-requis
+### Pré-requis
 
 Il est important de noter que chaque étape doit être effectuée dans une machine virtuelle différente.
 Dans chacune de ces machines virtuelles, il est nécessaire de cloner le repository git du TP afin de récupérer l'ensemble des fichiers de configuration:
@@ -54,9 +54,11 @@ mettre dans le fichier conf/spark-env.sh: ajouter SPARK_MASTER_HOST=<@IP-Master>
 
 #### Installation des dépendances
 
-Dans une nouvelle machine virtuelle, répeter l'étape précédente pour installer Apache Spark.
-Pour installer le reste des dépendances du service web, un script shell est fourni dans le dossier setup. Pour le lancer, se placer à la racine du projet et exécuter les commandes suivantes :
+Pour installer les dépendances du service web, se placer à la racine du projet et exécuter les commandes suivantes :
 ```
+chmod +x setup/spark/setup.sh
+./setup/spark/setup.sh
+source ~/.bashrc
 chmod +x setup/service/setup.sh
 ./setup/service/setup.sh
 ```
