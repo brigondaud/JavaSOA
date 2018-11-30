@@ -5,6 +5,7 @@ const models = require("../db");
 const request = require('request');
 const utils = require('../utils');
 const shell = require('shelljs');
+const eclairjs = require('eclairjs');
 
 module.exports = {
 
@@ -16,8 +17,47 @@ module.exports = {
    */
   getMostUsedProduct: function(req, res) {
 
-    let ipMasterSpark = req.app.config.ipMS
+    let ipMasterSpark = req.app.config.ipMS;
+    let spark = new eclairjs();
+    const adress = "spark://" + ipMasterSpark + ":7077";
 
+    let sparkContext = spark.SparkContext(adress, "mostUsedProduct");
+
+    // Query building.
+    let query = models.ReceiptModel.find({}, { _id: 0 }, {
+      sort:{id: 1} // Sort by id
+    });
+    query.lean().exec()
+    .then(receipts => {// Apply a pre-process on the list of receipts to extract products
+        let words = receipts.reduce((acc, receipt) => {
+          receipt.products.forEach(product => {
+            acc += name.repeat(product.quantity);
+          });
+          return acc;
+        }, "").split(" ");
+        let rdd = sparkContext.parallelize(words, 8);
+
+        let productsWithCount = rdd.mapToPair(function(product, Tuple2) {
+          return new Tuple2(product, 1);
+        }, [eclairjs.Tuple2]);
+
+        let reduceProductsWithCount = productsWithCount.reduceByKey(function(value1, value2) {
+          return value1 + value2;
+        });
+
+        let reducedProductsSorted = reduceProductsWithCount.sortByKey(false);
+        reducedProductsSorted.take(1).then(product => {
+          console.log(product);
+          sparkContext.stop();
+          res.status(200).end();
+        });
+    })
+    .catch(err => {
+      sparkContext.stop();
+      res.status(503).end();
+    });
+
+    /*
     // Submit the job
     shell.exec("./bin/spark-submit \
       --class tango.class.SendJob \
@@ -25,6 +65,7 @@ module.exports = {
       --deploy-mode cluster \
       job.jar");
     res.status(200).location('/result').end();
+    */
   },
 
   /**
