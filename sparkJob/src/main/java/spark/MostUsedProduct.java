@@ -43,35 +43,23 @@ public class MostUsedProduct {
         
         JavaSparkContext context = new JavaSparkContext(session.sparkContext());
         
-        JavaMongoRDD<Document> receiptsDocs = MongoSpark.load(context);
-        System.out.println("DEBUG " + receiptsDocs.first().toJson());
-        
-        JavaRDD<Receipt> receipts = receiptsDocs.toDS(Receipt.class)
+        JavaRDD<Receipt> receipts = MongoSpark.load(context)
+                .toDS(Receipt.class)
                 .javaRDD();
         
-        System.out.println("DEBUG Number or receipts" + Lists.newArrayList(receipts.toLocalIterator()).size());
-        /*
-        Iterator<Receipt> iterator = receipts.toLocalIterator();
-        while(iterator.hasNext()) {
-            Receipt r = iterator.next();
-            System.out.println("DEBUG " + r);
-            for(Product p: r.getProducts())
-                System.out.println("DEBUG " + p);
-        }
-        */
+//        JavaPairRDD<String, Integer> productCounts 
+        JavaRDD<Product> flat = receipts.flatMap(receipt -> receipt.getProducts().iterator());
+        System.out.println("DEBUG Total number of product object" + flat.collect().size());
         
-        JavaPairRDD<String, Integer> productCounts = receipts
-                .flatMap(receipt -> receipt.getProducts().iterator())
-                .mapToPair(product -> {
-                    System.out.println("PRODUCT " + product);
-                    return new Tuple2<>(product.getName(), product.getQuantity());
-                })
-                .reduceByKey((q1, q2) -> {
-                    System.out.println("QUANTITYADD " + q1 + ' ' + q2);
-                    return q1+q2;
-                });
+        JavaPairRDD<String, Integer> pairs = flat.mapToPair(product -> new Tuple2<>(product.getName(), product.getQuantity()));
+        for(Tuple2 t: pairs.collect())
+            System.out.println("DEBUG product pair (name:quantity)" + t._1 + ":" + t._2);
         
-        List<Tuple2<String, Integer>> product = productCounts.sortByKey(false).take(0);
+        JavaPairRDD<String, Integer> pair = pairs.reduceByKey((q1, q2) ->q1+q2);
+        for(Tuple2 t: pair.collect())
+            System.out.println("DEBUG final pair (name:quantity)" + t._1 + ":" + t._2);
+        
+        List<Tuple2<String, Integer>> product = pair.sortByKey(false).take(0);
         StringBuilder result = new StringBuilder();
         result.append("MostUsedProductResult/");
         if(!product.isEmpty())
