@@ -42,10 +42,14 @@ public class MostUsedProduct {
                 .toDS(Receipt.class)
                 .javaRDD();
         
+        System.out.println("DEBUG" + receipts.toDebugString());
+        
         JavaPairRDD<String, Integer> productCounts = receipts
                 .flatMap(receipt -> receipt.getProducts().iterator())
                 .mapToPair(product -> new Tuple2<>(product.getName(), product.getQuantity()))
                 .reduceByKey((q1, q2) -> q1 + q2);
+        
+        System.out.println("DEBUG2" + productCounts.toDebugString());
         
         List<Tuple2<String, Integer>> product = productCounts.sortByKey(false).take(0);
         StringBuilder result = new StringBuilder();
