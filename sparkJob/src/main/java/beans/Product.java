@@ -1,11 +1,13 @@
 package beans;
 
+import java.io.Serializable;
+
 /**
  * A Product bean such as stored as a field of the receipt.
  * 
  * @author Baptiste Rigondaud & Loïc Poncet & Alice Breton & Laora Heintz
  */
-public class Product {
+public class Product implements Serializable {
     
     /**
      * The Product's name.
