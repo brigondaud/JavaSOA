@@ -1,12 +1,14 @@
 package spark;
 
 import beans.Receipt;
+import com.clearspring.analytics.util.Lists;
 import com.mongodb.spark.MongoSpark;
 import java.util.List;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
+import scala.Array;
 import scala.Tuple2;
 
 /**
@@ -42,7 +44,9 @@ public class MostUsedProduct {
                 .toDS(Receipt.class)
                 .javaRDD();
         
-        System.out.println("DEBUG" + receipts.toDebugString());
+        while(receipts.toLocalIterator().hasNext()) {
+            System.out.println("DEBUG " + receipts.toLocalIterator().next());
+        }
         
         JavaPairRDD<String, Integer> productCounts = receipts
                 .flatMap(receipt -> receipt.getProducts().iterator())
