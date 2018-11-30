@@ -76,3 +76,25 @@ Une fois les étapes précédentes effectuées, les tests unitaires peuvent-êtr
 ```
 mvn test
 ```
+
+# Installation de spark
+- Créer 3 machines virtuelles sur Virtual Box, Linux ubuntu 64-bit. La taille de la mémoire doit être plus grande que 1Go pour chaque machine.
+    - master
+    - slave01
+    - slave01
+- Configurer ces 3 machines:
+    - Installer ubuntu server
+    - Sous l'onglet réseau, ajouter une Carte 2 "Réseau privé hôte" (il faut avoir préalablement créé un réseau hôte dans les paramètres de VirtualBox)
+- Démarrer les 3 machines et suivre les instruction d'installation, en précisant "master", "slave01" et "slave02" dans les champs "Your server's Name".
+- Lorsque les machines sont démarrées, dans chacune d'elles:
+    - sudo apt-get update
+    - sudo apt-get install git
+    - git clone http://github.com/brigondaud/JavaSOA
+Lancer le script de setup spark :
+    - Changer les permissions chmod +x ./JavaSOA/setup/spark/setup.sh
+    - Retourner à la racine pour lancer le setup !
+    - Exécuter le setup: ./JavaSOA/setup/spark/setup.sh (le setup peur prendre plusieurs minutes)
+    - Nous avons remarqué que si il y a une coupure internet, certains paquets ne sont pas téléchargés correctement. Il faut donc lancer le script ./setup.sh jusqu'à ce qu'il s'exécute sans rien changé.
+    - Il faut ensuite ajouter manuellement les adresses IP des différentes machines comme suit :
+        - Changer les permissions pour lire : sudo chmod +x ~/spark-2.4.0-bin-hadoop2.7/conf/spark-env
+        - Dans le fichier ~/spark-2.4.0-bin-hadoop2.7/conf/spark-env ajouter la ligne: SPARK_MASTER_HOST=<ADDRESSE_IP_MASTER>
