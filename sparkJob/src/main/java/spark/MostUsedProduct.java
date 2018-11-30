@@ -39,6 +39,7 @@ public class MostUsedProduct {
             .config("spark.mongodb.output.uri", args[0])
             .config("spark.driver.memory", "512m")
             .config("spark.executor.memory", "512m")
+            .config("spark.executor.cores", "1")
             .getOrCreate();
         
         JavaSparkContext context = new JavaSparkContext(session.sparkContext());
@@ -47,19 +48,17 @@ public class MostUsedProduct {
                 .toDS(Receipt.class)
                 .javaRDD();
         
-//        JavaPairRDD<String, Integer> productCounts 
-        JavaRDD<Product> flat = receipts.flatMap(receipt -> receipt.getProducts().iterator());
-        System.out.println("DEBUG Total number of product object" + flat.collect().size());
+        JavaPairRDD<String, Integer> productCounts = receipts
+                .flatMap(receipt -> receipt.getProducts().iterator())
+                .mapToPair(product -> {
+                    return new Tuple2<>(product.getName(), product.getQuantity());
+                })
+                .reduceByKey((q1, q2) -> {
+                    return q1+q2;
+                });
         
-        JavaPairRDD<String, Integer> pairs = flat.mapToPair(product -> new Tuple2<>(product.getName(), product.getQuantity()));
-        for(Tuple2 t: pairs.collect())
-            System.out.println("DEBUG product pair (name:quantity)" + t._1 + ":" + t._2);
+        List<Tuple2<String, Integer>> product = productCounts.sortByKey(false).take(1);
         
-        JavaPairRDD<String, Integer> pair = pairs.reduceByKey((q1, q2) ->q1+q2);
-        for(Tuple2 t: pair.collect())
-            System.out.println("DEBUG final pair (name:quantity)" + t._1 + ":" + t._2);
-        
-        List<Tuple2<String, Integer>> product = pair.sortByKey(false).take(0);
         StringBuilder result = new StringBuilder();
         result.append("MostUsedProductResult/");
         if(!product.isEmpty())
