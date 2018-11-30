@@ -1,5 +1,9 @@
 JavaSOA
 
+A faire manuellement pour spark:
+conf/slaves (ajouter toutes les ip du slaves sur ce fichier dans le master)
+mettre dans le fichier conf/spark-env.sh: ajouter SPARK_MASTER_HOST=<@IP-Master>
+
 #Installation de Spark
 
 Ajouter winutils.exe à votre variable d'environnement :
