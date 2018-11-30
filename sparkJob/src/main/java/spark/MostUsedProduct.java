@@ -4,6 +4,7 @@ import beans.Product;
 import beans.Receipt;
 import com.mongodb.spark.MongoSpark;
 import com.mongodb.spark.rdd.api.java.JavaMongoRDD;
+import java.util.Iterator;
 import java.util.List;
 import jersey.repackaged.com.google.common.collect.Lists;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -49,12 +50,15 @@ public class MostUsedProduct {
                 .javaRDD();
         
         System.out.println("DEBUG Number or receipts" + Lists.newArrayList(receipts.toLocalIterator()).size());
-//        while(receipts.toLocalIterator().hasNext()) {
-//            Receipt r = receipts.toLocalIterator().next();
-//            System.out.println("DEBUG " + r);
-//            for(Product p: r.getProducts())
-//                System.out.println("DEBUG " + p);
-//        }
+        /*
+        Iterator<Receipt> iterator = receipts.toLocalIterator();
+        while(iterator.hasNext()) {
+            Receipt r = iterator.next();
+            System.out.println("DEBUG " + r);
+            for(Product p: r.getProducts())
+                System.out.println("DEBUG " + p);
+        }
+        */
         
         JavaPairRDD<String, Integer> productCounts = receipts
                 .flatMap(receipt -> receipt.getProducts().iterator())
