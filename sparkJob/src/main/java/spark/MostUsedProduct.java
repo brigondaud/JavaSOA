@@ -1,14 +1,15 @@
 package spark;
 
+import beans.Product;
 import beans.Receipt;
-import com.clearspring.analytics.util.Lists;
 import com.mongodb.spark.MongoSpark;
+import com.mongodb.spark.rdd.api.java.JavaMongoRDD;
 import java.util.List;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
-import scala.Array;
+import org.bson.Document;
 import scala.Tuple2;
 
 /**
@@ -40,20 +41,29 @@ public class MostUsedProduct {
         
         JavaSparkContext context = new JavaSparkContext(session.sparkContext());
         
-        JavaRDD<Receipt> receipts = MongoSpark.load(context)
-                .toDS(Receipt.class)
+        JavaMongoRDD<Document> receiptsDocs = MongoSpark.load(context);
+        System.out.println("DEBUG " + receiptsDocs.first().toJson());
+        
+        JavaRDD<Receipt> receipts = receiptsDocs.toDS(Receipt.class)
                 .javaRDD();
         
         while(receipts.toLocalIterator().hasNext()) {
-            System.out.println("DEBUG " + receipts.toLocalIterator().next());
+            Receipt r = receipts.toLocalIterator().next();
+            System.out.println("DEBUG " + r);
+            for(Product p: r.getProducts())
+                System.out.println("DEBUG " + p);
         }
         
         JavaPairRDD<String, Integer> productCounts = receipts
                 .flatMap(receipt -> receipt.getProducts().iterator())
-                .mapToPair(product -> new Tuple2<>(product.getName(), product.getQuantity()))
-                .reduceByKey((q1, q2) -> q1 + q2);
-        
-        System.out.println("DEBUG2" + productCounts.toDebugString());
+                .mapToPair(product -> {
+                    System.out.println("PRODUCT " + product);
+                    return new Tuple2<>(product.getName(), product.getQuantity());
+                })
+                .reduceByKey((q1, q2) -> {
+                    System.out.println("QUANTITYADD " + q1 + ' ' + q2);
+                    return q1+q2;
+                });
         
         List<Tuple2<String, Integer>> product = productCounts.sortByKey(false).take(0);
         StringBuilder result = new StringBuilder();
