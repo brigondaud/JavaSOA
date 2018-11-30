@@ -12,7 +12,11 @@ Dans chacune de ces machines virtuelles, il est nécessaire de cloner le reposit
 git clone //Adresse git
 ```
 
-###Installation de Spark
+A faire manuellement pour spark:
+conf/slaves (ajouter toutes les ip du slaves sur ce fichier dans le master)
+mettre dans le fichier conf/spark-env.sh: ajouter SPARK_MASTER_HOST=<@IP-Master>
+
+#Installation de Spark
 
 Ajouter winutils.exe à votre variable d'environnement :
 
@@ -46,7 +50,7 @@ chmod +x setup/service/setup.sh
 ```
 
 #### Lancement du service REST
-Pour démarrer le service, se placer dans le répertoire service depuis la racine du projet puis exécuter les commandes suivantes:
+Pour démarrer le service, se placer dans le répertoire service puis exécuter la commande suivante :
 ```
 npm start
 ```
@@ -54,5 +58,7 @@ Une fois le service démarré, les requêtes entrantes seront affichées dans le
 
 ### Lancement du client et des tests
 
-Pour lancer les tests unitaires, se placer dans 
-
+Une fois les étapes précédentes effectuées, les tests unitaires peuvent-être lancés en se plaçant dans le répertoire client et en exécutant depuis un terminal la commande suivante :
+```
+mvn test
+```
