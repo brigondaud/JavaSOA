@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -42,7 +43,7 @@ class TestResources {
 		List<Receipt> receipts = new ArrayList<>();
 		Receipt r;
         for (int i = 0; i < 100; i++) {
-            r = new Receipt(i);
+            r = this.createValidReceipt(i);
             receipts.add(r);
 		    Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
 		    assertEquals(201, response.getStatus());
@@ -56,10 +57,7 @@ class TestResources {
 	 */
 	@Test
 	void createAndGetSameReceiptShouldBeEquals() {
-		List<Product> products = new ArrayList<>();
-		Product p = new Product("tomate", 1, 2);
-		products.add(p);
-		Receipt r = new Receipt(42, products);
+		Receipt r = this.createValidReceipt(42);
 		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
 		assertEquals(201, response.getStatus());
 		Receipt r2 = this.client.build(r.getId()).get(Receipt.class);
@@ -71,8 +69,8 @@ class TestResources {
 	 */
 	@Test
 	void createTwoReceiptsWithSameIdShouldNotWork() {
-		Receipt r = new Receipt(42);
-		Receipt r2 = new Receipt(42);
+		Receipt r = this.createValidReceipt(42);
+		Receipt r2 = this.createValidReceipt(42);
 		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
 		assertEquals(201, response.getStatus());
 		response = this.client.build().post(Entity.entity(r2, MediaType.APPLICATION_JSON));
@@ -84,7 +82,7 @@ class TestResources {
      */
     @Test
     void createAndDeleteShouldWork() {
-		Receipt r = new Receipt(42);
+		Receipt r = this.createValidReceipt(42);
 		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
 		assertEquals(201, response.getStatus());
 		response = this.client.build(r.getId()).delete();
@@ -145,5 +143,77 @@ class TestResources {
 		Receipt r = new Receipt(42, products);
 		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
 		assertEquals(400, response.getStatus());
+	}
+
+	/**
+	 * Create a receipt with invalid Product list
+	 */
+	@Test
+	void createReceiptWithInvalidProductListShouldNotWork() {
+		Receipt r = new Receipt(42);
+		Response response = this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
+		assertEquals(400, response.getStatus());
+	}
+
+	/**
+	 * Create a valid Receipt with one product
+	 *
+	 * @param id The id to give to the created Receipt
+	 * @return A valid Receipt Object, ready to be send to the API
+	 */
+	private Receipt createValidReceipt(int id) {
+		List<Product> products = new ArrayList<>();
+		Product p = new Product("tomate", 1, 2);
+		products.add(p);
+		return new Receipt(id, products);
+	}
+
+	private void populateDatabase() {
+		List<Product> availableProducts = new ArrayList<>();
+		Product product1 = new Product("tomate", 4, 4);
+		Product product2 = new Product("carotte", 2, 2);
+		Product product3 = new Product("pomme de terre", 1, 8);
+		Product product4 = new Product("salade", 1, 1);
+		Product product5 = new Product("poivron", 1, 6);
+		Product product6 = new Product("ciboulette", 1, 2);
+		Product product7 = new Product("poireau", 1, 3);
+		Product product8 = new Product("menthe", 1, 4);
+		Product product9 = new Product("poire", 1, 6);
+		Product product10 = new Product("framboise", 1, 2);
+		availableProducts.add(product1);
+		availableProducts.add(product2);
+		availableProducts.add(product3);
+		availableProducts.add(product4);
+		availableProducts.add(product5);
+		availableProducts.add(product6);
+		availableProducts.add(product7);
+		availableProducts.add(product8);
+		availableProducts.add(product9);
+		availableProducts.add(product10);
+		// Create 2000 receipts
+		for (int i = 0; i < 2000; i++) {
+			List<Product> products = this.createRandomProductList(availableProducts);
+			Receipt r = new Receipt(i, products);
+			this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
+		}
+	}
+
+
+	/**
+	 * Create a random list of products from a given available products list
+	 *
+	 * @param available A list containing all the available products
+	 * @return A list containing a random number of randomly chosen products
+	 */
+	 private List<Product> createRandomProductList(List<Product> available) {
+		List<Product> res = new ArrayList<>();
+		Random random = new Random();
+		int size = random.nextInt(9) + 1;
+	    for (int i = 0; i < size; i++) {
+	    	int indexProduct = random.nextInt(available.size());
+	    	Product product = available.get(indexProduct);
+	    	res.add(product);
+		}
+		return res;
 	}
 }

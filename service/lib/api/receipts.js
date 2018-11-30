@@ -16,7 +16,9 @@ module.exports = {
   get: function(req, res) {
 
     // Query building.
-    let query = models.ReceiptModel.find({}, { _id: 0 });
+    let query = models.ReceiptModel.find({}, { _id: 0 }, {
+      sort:{id: 1} // Sort by id
+    });
 
     query.lean().exec()
     .then(receipts => {
