@@ -106,6 +106,8 @@ module.exports = {
    * @param products The products to test
    */
   areProductsValid: function(products) {
+    if (products.length === 0)
+      return false;
     let valid = true;
     products.forEach(product => {
       if (!product.name
