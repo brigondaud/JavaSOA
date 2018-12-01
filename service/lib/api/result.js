@@ -24,13 +24,13 @@ module.exports = {
       req.app.config.hostPort + "/" +
       req.app.config.dbName + "." +
       req.app.config.collectionName;
-    const adress = "spark://" + ipMasterSpark + ":7077";
+    const address = "spark://" + ipMasterSpark + ":7077";
 
     // Submit the job
     let jobLog = shell.exec("~/spark-2.4.0-bin-hadoop2.7/bin/spark-submit \
       --packages org.mongodb.spark:mongo-spark-connector_2.11:2.3.1 \
       --class spark.MostUsedProduct \
-      --master " + ipMasterSpark + " \
+      --master " + address + " \
       --deploy-mode client \
       ~/JavaSOA/sparkJob/job-0.1.jar " + dbURI + " 2> /dev/null | grep MostUsedProductResult").stdout;
     let commandOutput = jobLog.split("/");
