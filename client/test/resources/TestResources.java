@@ -155,6 +155,15 @@ class TestResources {
 		assertEquals(400, response.getStatus());
 	}
 
+	@Test
+	void getMostUsedProduct() {
+		this.populateDatabase();
+		Product expected = new Product("pomme de terre");
+		expected.setQuantity(160);
+		Product result = this.client.buildMostUsedProduct().get(Product.class);
+		assertEquals(expected, result);
+	}
+
 	/**
 	 * Create a valid Receipt with one product
 	 *
@@ -190,9 +199,10 @@ class TestResources {
 		availableProducts.add(product8);
 		availableProducts.add(product9);
 		availableProducts.add(product10);
-		// Create 2000 receipts
-		for (int i = 0; i < 2000; i++) {
-			List<Product> products = this.createRandomProductList(availableProducts);
+		// Create some receipts
+		for (int i = 0; i <= 180; i++) {
+			List<Product> products = new ArrayList<>();
+			products.add(availableProducts.get(i % 9));
 			Receipt r = new Receipt(i, products);
 			this.client.build().post(Entity.entity(r, MediaType.APPLICATION_JSON));
 		}

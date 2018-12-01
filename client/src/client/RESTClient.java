@@ -14,10 +14,12 @@ import javax.ws.rs.core.MediaType;
  */
 public class RESTClient {
 	
-        /**
-         * The path to the web service.
-         */
+	/**
+	 * The path to the REST API.
+	 */
 	private String servicePath;
+
+	private String mostUsedProductPath;
 	
 	/**
 	 * An instance of client to perform requests to the service.
@@ -33,9 +35,20 @@ public class RESTClient {
                 setServiceIp(webServiceIp);
 		this.client = ClientBuilder.newClient();
 	}
+
+	/**
+	 * Build a request in JSON format to the REST API.
+	 *
+	 * @return A post / get ready request.
+	 */
+	public Invocation.Builder buildMostUsedProduct() {
+		return client
+				.target(mostUsedProductPath)
+				.request(MediaType.APPLICATION_JSON);
+	}
 	
 	/**
-	 * Build a request in JSON format.
+	 * Build a request in JSON format to the REST API.
 	 * 
 	 * @return A post / get ready request.
 	 */
@@ -46,7 +59,7 @@ public class RESTClient {
 	}
 	
 	/**
-	 * Build a request in JSON format.
+	 * Build a request in JSON format to REST API.
 	 * 
 	 * @param id The id of the resource to retrieve or delete
 	 * @return A post / get ready request.
@@ -65,5 +78,6 @@ public class RESTClient {
         private void setServiceIp(String webServiceIp) {
             if(webServiceIp == null) throw new IllegalArgumentException("Bad web service IP.");
             this.servicePath = "http://" + webServiceIp + ":8000/rest/receipts";
+			this.mostUsedProductPath = "http://" + webServiceIp + ":8000/mostUsedProduct";
         }
 }
