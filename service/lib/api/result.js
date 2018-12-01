@@ -5,7 +5,6 @@ const models = require("../db");
 const request = require('request');
 const utils = require('../utils');
 const shell = require('shelljs');
-const eclairjs = require('eclairjs');
 
 module.exports = {
 
@@ -18,54 +17,32 @@ module.exports = {
   getMostUsedProduct: function(req, res) {
 
     let ipMasterSpark = req.app.config.ipMS;
-    let spark = new eclairjs();
+    let dbURI = "mongodb://" +
+      req.app.config.userName + ":" +
+      req.app.config.password + "@" +
+      req.app.config.hostName + ".mlab.com:" +
+      req.app.config.hostPort + "/" +
+      req.app.config.dbName + "." +
+      req.app.config.collectionName;
     const adress = "spark://" + ipMasterSpark + ":7077";
 
-    let sparkContext = spark.SparkContext(adress, "mostUsedProduct");
-
-    // Query building.
-    let query = models.ReceiptModel.find({}, { _id: 0 }, {
-      sort:{id: 1} // Sort by id
-    });
-    query.lean().exec()
-    .then(receipts => {// Apply a pre-process on the list of receipts to extract products
-        let words = receipts.reduce((acc, receipt) => {
-          receipt.products.forEach(product => {
-            acc += name.repeat(product.quantity);
-          });
-          return acc;
-        }, "").split(" ");
-        let rdd = sparkContext.parallelize(words, 8);
-
-        let productsWithCount = rdd.mapToPair(function(product, Tuple2) {
-          return new Tuple2(product, 1);
-        }, [eclairjs.Tuple2]);
-
-        let reduceProductsWithCount = productsWithCount.reduceByKey(function(value1, value2) {
-          return value1 + value2;
-        });
-
-        let reducedProductsSorted = reduceProductsWithCount.sortByKey(false);
-        reducedProductsSorted.take(1).then(product => {
-          console.log(product);
-          sparkContext.stop();
-          res.status(200).end();
-        });
-    })
-    .catch(err => {
-      sparkContext.stop();
-      res.status(503).end();
-    });
-
-    /*
     // Submit the job
-    shell.exec("./bin/spark-submit \
-      --class tango.class.SendJob \
+    let jobLog = shell.exec("~/spark-2.4.0-bin-hadoop2.7/bin/spark-submit \
+      --packages org.mongodb.spark:mongo-spark-connector_2.11:2.3.1 \
+      --class spark.MostUsedProduct \
       --master " + ipMasterSpark + " \
-      --deploy-mode cluster \
-      job.jar");
-    res.status(200).location('/result').end();
-    */
+      --deploy-mode client \
+      job-0.1.jar " + dbURI + " 2> /dev/null").grep("MostUsedProductResult").stdout;
+    let firstSplit = jobLog.split("/");
+    if (firstSplit.length != 2)
+      res.status(503).end();
+    else {
+      let secondSplit = firstSplit[1].split(":");
+      let result = {};
+      result.name = secondSplit[0];
+      result.quantity = secondSplit[1];
+      res.status(200).json(result);
+    }
   },
 
   /**
@@ -75,39 +52,19 @@ module.exports = {
    * @param {Object} res
    */
   getResult: function(req, res) {
-    models.ResultModel.findOneAndDelete({id: 1}, { _id: 0 })
+    let id = req.params.id;
+    models.MostUsedProduct.findOne({id: id}, { _id: 0 })
     .lean()
     .exec()
     .then(result => {
       if (result)
-        res.status(200).send(result);
+        res.status(200).json(result);
       else
         res.status(404).end();
     })
     .catch(err => {
       res.status(503).end();
     })
-  },
-
-  /**
-   * Handle the result being send by Spark.
-   *
-   * @param {Object} req
-   * @param {Object} res
-   */
-  handleResult: function(req, res) {
-    let product = {};
-    product.id = 1;
-    product.name = req.body.name;
-
-    models.ResultModel.findOneAndUpdate({id: product.id}, {name: product.name}, {upsert: true})
-    .lean()
-    .exec()
-    .then(result => {
-      res.status(201).send(result);
-    })
-    .catch(err => {
-      res.status(503).end();
-    });
   }
+
 };

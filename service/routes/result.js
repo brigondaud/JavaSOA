@@ -9,12 +9,8 @@ router.get("/", (req, res) => {
   handlers.getMostUsedProduct(req, res);
 });
 
-router.get("/result", (req, res) => {
+router.get("/:id", (req, res) => {
   handlers.getResult(req, res);
-});
-
-router.post("/result", (req, res) => {
-  handlers.handleResult(req, res);
 });
 
 module.exports = router;
