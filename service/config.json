@@ -1,5 +1,5 @@
 {
-  "ipMS": "127.0.0.1",
+  "ipMS": "<SPARK MASTER IP>",
   "userName": "teamtango",
   "password": "log8430",
   "hostName": "ds121624",
