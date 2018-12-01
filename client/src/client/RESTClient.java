@@ -14,7 +14,10 @@ import javax.ws.rs.core.MediaType;
  */
 public class RESTClient {
 	
-	public static String servicePath = "http://localhost:8000/rest/receipts";
+        /**
+         * The path to the web service.
+         */
+	private String servicePath;
 	
 	/**
 	 * An instance of client to perform requests to the service.
@@ -22,9 +25,12 @@ public class RESTClient {
 	private Client client;
 	
 	/**
-	 * The REST client is built using the URI to the web service.
+	 * The REST client is built using the the web service IP.
+         * 
+        * @param webServiceIp The IP address of the web service.
 	 */
-	public RESTClient() {
+	public RESTClient(String webServiceIp) {
+                setServiceIp(webServiceIp);
 		this.client = ClientBuilder.newClient();
 	}
 	
@@ -50,5 +56,14 @@ public class RESTClient {
 				.target(servicePath)
 				.path("/" + String.valueOf(id))
 				.request(MediaType.APPLICATION_JSON);
-	}
+        }
+
+        /**
+         * Setter for the web service ip.
+         * @param webServiceIp 
+         */
+        private void setServiceIp(String webServiceIp) {
+            if(webServiceIp == null) throw new IllegalArgumentException("Bad web service IP.");
+            this.servicePath = "http://" + webServiceIp + ":8000/rest/receipts";
+        }
 }

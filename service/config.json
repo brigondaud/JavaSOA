@@ -1,0 +1,9 @@
+{
+  "ipMS": "127.0.0.1",
+  "userName": "teamtango",
+  "password": "log8430",
+  "hostName": "ds121624",
+  "hostPort": "21624",
+  "dbName": "tangodb",
+  "collectionName": "receipts"
+}
