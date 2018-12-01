@@ -40,7 +40,7 @@ module.exports = {
       let secondSplit = commandOutput[1].split(":");
       let result = {};
       result.name = secondSplit[0];
-      result.quantity = secondSplit[1];
+      result.quantity = parseInt(secondSplit[1]);
       res.status(200).json(result);
     }
   },
