@@ -24,23 +24,23 @@ module.exports = {
       req.app.config.hostPort + "/" +
       req.app.config.dbName + "." +
       req.app.config.collectionName;
-    const adress = "spark://" + ipMasterSpark + ":7077";
+    const address = "spark://" + ipMasterSpark + ":7077";
 
     // Submit the job
     let jobLog = shell.exec("~/spark-2.4.0-bin-hadoop2.7/bin/spark-submit \
       --packages org.mongodb.spark:mongo-spark-connector_2.11:2.3.1 \
       --class spark.MostUsedProduct \
-      --master " + ipMasterSpark + " \
+      --master " + address + " \
       --deploy-mode client \
-      job-0.1.jar " + dbURI + " 2> /dev/null").grep("MostUsedProductResult").stdout;
-    let firstSplit = jobLog.split("/");
-    if (firstSplit.length != 2)
-      res.status(503).end();
+      ~/JavaSOA/sparkJob/job-0.1.jar " + dbURI + " 2> /dev/null | grep MostUsedProductResult").stdout;
+    let commandOutput = jobLog.split("/");
+    if (commandOutput.length != 2)
+      res.status(404).json({"product": "No product found!"});
     else {
-      let secondSplit = firstSplit[1].split(":");
+      let secondSplit = commandOutput[1].split(":");
       let result = {};
       result.name = secondSplit[0];
-      result.quantity = secondSplit[1];
+      result.quantity = parseInt(secondSplit[1]);
       res.status(200).json(result);
     }
   },
