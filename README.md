@@ -108,13 +108,36 @@ Pour déployer la grape Spark, exécuter sur le noeud Master:
 
 ### Déploiement de MongoDB
 
-TODO:
+Le déploiement de MongoDB est effectué à l'aide du service [mLab](https://mlab.com/). Il permet de déployer gratuitement une base de données NoSQL orientée Document gratuitement (jusqu'à 500MB de données). La configuration nécessaire pour exécuter des requêtes sur cette base de données est déjà fournie dans le fichier `~/JavaSOA/service/config.json`.
 
-### Lancement du service REST
+**Note**(facultatif): Il est possible de déployer une base de données MongoDB localement sur une machine virtuelle en exécutant:
+```
+chmod +x ~/JavaSOA/setup/mongodb/setup.sh
+~/JavaSOA/setup/mongodb/setup.sh
+```
+Il faudra cependant éditer le fichier de configuration du service web (`~/JavaSOA/service/config.json`) sur la machine appropiée.
 
-### Lancement du client et des tests
+## Exécution des tests
 
 Une fois les étapes précédentes effectuées, les tests unitaires peuvent-être lancés en se plaçant dans le répertoire client, présent à la racine du projet, et en exécutant depuis un terminal la commande suivante :
 ```
 mvn test
 ```
+
+TODO
+
+## Développé avec
+
+* [Apache Maven](https://maven.apache.org/)
+* [JUnit](https://junit.org/junit4/)
+* [Apache Spark](https://spark.apache.org/)
+* [NodeJS](https://nodejs.org/)
+* [ShellJs](https://github.com/shelljs/shelljs)
+* [MongoDB](https://www.mongodb.com/)
+
+## Auteurs
+
+* **Alice Breton (1966869)**
+* **Laora Heintz (1974521)**
+* **Baptiste Rigondaud (1973586)**
+* **Loïc Poncet (1973621)**
