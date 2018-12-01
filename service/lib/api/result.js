@@ -32,10 +32,10 @@ module.exports = {
       --class spark.MostUsedProduct \
       --master " + ipMasterSpark + " \
       --deploy-mode client \
-      job-0.1.jar " + dbURI + " 2> /dev/null").grep("MostUsedProductResult").stdout;
+      job-0.1.jar " + dbURI + " 2> /dev/null | grep MostUsedProductResult").stdout;
     let firstSplit = jobLog.split("/");
     if (firstSplit.length != 2)
-      res.status(503).end();
+      res.status(404).json({"product": "No product found!"});
     else {
       let secondSplit = firstSplit[1].split(":");
       let result = {};
