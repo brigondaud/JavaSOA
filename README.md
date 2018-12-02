@@ -22,7 +22,12 @@ git clone https://github.com/brigondaud/JavaSOA.git
 Cette commande génère l'arborescence suivante:
 
 ```
-TODO: génerer l'arborescence
+.
+├── client # Ensemble des fichiers source du client, ainsi que les tests unitaires
+├── README.md
+├── service # Contient l'ensemble des fichiers source du service REST
+├── setup # L'ensemble des scripts de configuration du système se trouvent dans ce repertoire
+└── sparkJob # Contient le job Spark permettant de trouver le produit le plus fréquent
 ```
 
 #### Installation de Spark
