@@ -23,8 +23,8 @@
         <configuration>
             <systemProperties>
               <property>
-                <name>sparkMasterIP</name>
-                <value>${sparkMasterIP}</value>
+                <name>webServiceIP</name>
+                <value>${webServiceIP}</value>
               </property>
             </systemProperties>
         </configuration>

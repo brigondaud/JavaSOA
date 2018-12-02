@@ -7,4 +7,4 @@ if [ $# -eq 0 ]
 fi
 
 cd ~/JavaSOA/client
-mvn test -DsparkMasterIP="$1"
+mvn test -DwebServiceIP="$1"

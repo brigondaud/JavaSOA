@@ -23,7 +23,7 @@ class TestResources {
 	private RESTClient client;
 	
 	public TestResources() {
-		this.client = new RESTClient(System.getProperty("sparkMasterIP"));
+		this.client = new RESTClient(System.getProperty("webServiceIP"));
 	}
 
 	/**
