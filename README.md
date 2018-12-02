@@ -1,6 +1,6 @@
 # LOG8430 - TP4 - SOA, REST, Infonuagique, Architectures Multi-niveaux pour le traitement de mégadonnées.
 
-Ce README détaille les étapes pour pouvoir mettre en place le service de facture distribué.
+Ce README détaille les étapes pour pouvoir mettre en place le service de facture distribué. Une vidéo de présentation du système est disponible [ici](https://youtu.be/4X2GExO78yc).
 
 
 ## Prise en main
@@ -125,12 +125,19 @@ Il faudra cependant éditer le fichier de configuration du service web (`~/JavaS
 
 ## Exécution des tests
 
-Une fois les étapes précédentes effectuées, les tests unitaires peuvent-être lancés en se plaçant dans le répertoire client, présent à la racine du projet, et en exécutant depuis un terminal la commande suivante :
+Une fois les étapes précédentes effectuées, les tests unitaires peuvent-être lancés en se plaçant dans le répertoire client, présent à la racine du projet, et en exécutant depuis un terminal les commandes suivantes :
 ```
-mvn test
+chmod +x test-client.sh
+./test-client.sh <Web service IP>
 ```
 
-TODO
+**Note**: Les tests doivent être lancés sur une machine dotée d'une installation de maven et de Java 8.
+
+## Diagrammes architecturaux
+
+![rest_collab](diagrams/diag_collab_rest.png)
+
+![spark_collab](diagrams/diag_collab_spark.png)
 
 ## Développé avec
 
