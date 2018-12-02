@@ -23,10 +23,10 @@ Cette commande génère l'arborescence suivante:
 
 ```
 .
-├── client # Ensemble des fichiers source du client, ainsi que les tests unitaires
+├── client # Contient les fichiers source du client, ainsi que les tests unitaires
 ├── README.md
 ├── service # Contient l'ensemble des fichiers source du service REST
-├── setup # L'ensemble des scripts de configuration du système se trouvent dans ce repertoire
+├── setup # Contient l'ensemble des scripts de configuration du système
 └── sparkJob # Contient le job Spark permettant de trouver le produit le plus fréquent
 ```
 
