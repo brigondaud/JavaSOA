@@ -24,6 +24,7 @@ Cette commande génère l'arborescence suivante:
 ```
 .
 ├── client # Contient les fichiers source du client, ainsi que les tests unitaires
+├── diagrams # Contient les diagrammes de collaboration du TP
 ├── README.md
 ├── service # Contient l'ensemble des fichiers source du service REST
 ├── setup # Contient l'ensemble des scripts de configuration du système
